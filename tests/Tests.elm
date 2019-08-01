@@ -1,9 +1,9 @@
-module Tests exposing (..)
+module Tests exposing (Msg(..), all)
 
-import Test exposing (..)
 import Expect
-import String
 import Modal
+import String
+import Test exposing (..)
 
 
 type Msg

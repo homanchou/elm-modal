@@ -1,11 +1,10 @@
-module Modal
-    exposing
-        ( view
-        , maybeView
-        , Config
-        , PullDirection(..)
-        , maintainableCssConfig
-        )
+module Modal exposing
+    ( view
+    , maybeView
+    , Config
+    , PullDirection(..)
+    , maintainableCssConfig
+    )
 
 {-| This library exposes functions for conditionally viewing HTML elements
 inside a modal dialog.
@@ -15,14 +14,19 @@ markup with consistent CSS classes; it's still up to you to provide the CSS
 to actually make the modal appear and disappear. However, you can use
 [this](https://github.com/rjbma/elm-modal/blob/master/src/modal.css) as a starting point!
 
+
 # View
+
 @docs view
 @docs maybeView
 
+
 # Config
+
 @docs Config
 @docs PullDirection
 @docs maintainableCssConfig
+
 -}
 
 import Html exposing (..)
@@ -31,8 +35,8 @@ import Html.Events exposing (onClick)
 
 
 {-| Represents a modal dialog with the given configuration and content. The
-   modal's visibility is determined by the `isOpen` flag. The Html attributes
-   are applied to the modal's top level element.
+modal's visibility is determined by the `isOpen` flag. The Html attributes
+are applied to the modal's top level element.
 
 For example, a confirmation dialog that depends on a field in the model:
 
@@ -45,14 +49,15 @@ For example, a confirmation dialog that depends on a field in the model:
             confirmationDialog =
                 Modal.view cfg model.showConfirmation
         in
-            div []
-                [ confirmationDialog
-                    []
-                    [ p [] [ text "Destroy the world?" ]
-                    , button [ onClick CallTheNutHaus ] [ text "Sure, we're on borrowed time anyways" ]
-                    , button [ onClick CancelConfirmation ] [ text "Not until GoT is over!" ]
-                    ]
+        div []
+            [ confirmationDialog
+                []
+                [ p [] [ text "Destroy the world?" ]
+                , button [ onClick CallTheNutHaus ] [ text "Sure, we're on borrowed time anyways" ]
+                , button [ onClick CancelConfirmation ] [ text "Not until GoT is over!" ]
                 ]
+            ]
+
 -}
 view : Config msg -> Bool -> List (Html.Attribute msg) -> List (Html msg) -> Html msg
 view cfg isOpen attributes children =
@@ -60,6 +65,7 @@ view cfg isOpen attributes children =
         isOpenClass =
             if isOpen then
                 class cfg.openClass
+
             else
                 class ""
 
@@ -68,10 +74,10 @@ view cfg isOpen attributes children =
                 :: isOpenClass
                 :: attributes
     in
-        aside allAttrs
-            [ div [ class cfg.containerClass ] children
-            , div [ class cfg.backdropClass, onClick cfg.closeMsg ] []
-            ]
+    aside allAttrs
+        [ div [ class cfg.containerClass ] children
+        , div [ class cfg.backdropClass, onClick cfg.closeMsg ] []
+        ]
 
 
 {-| Represents a modal that is visible when the given `Maybe` is a `Just`, and
@@ -98,11 +104,12 @@ For example, a confirmation dialog for viewing detailed information on a user:
                     ]
                 ]
         in
-            div []
-                [ userDetailDialog
-                    []
-                    viewUser
-                ]
+        div []
+            [ userDetailDialog
+                []
+                viewUser
+            ]
+
 -}
 maybeView : Config msg -> Maybe a -> List (Html.Attribute msg) -> (a -> List (Html msg)) -> Html msg
 maybeView cfg val attrs childrenFn =
@@ -167,10 +174,10 @@ maintainableCssConfig moduleName pullDirection closeMsg =
                 Left ->
                     "--left"
     in
-        { mainClass = moduleName ++ " " ++ moduleName ++ direction
-        , direction = pullDirection
-        , openClass = moduleName ++ "-isOpen"
-        , containerClass = moduleName ++ "-container"
-        , backdropClass = moduleName ++ "-backdrop"
-        , closeMsg = closeMsg
-        }
+    { mainClass = moduleName ++ " " ++ moduleName ++ direction
+    , direction = pullDirection
+    , openClass = moduleName ++ "-isOpen"
+    , containerClass = moduleName ++ "-container"
+    , backdropClass = moduleName ++ "-backdrop"
+    , closeMsg = closeMsg
+    }
